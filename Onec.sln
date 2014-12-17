@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onec", "Onec\Onec.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onec.Tests", "Onec.Tests\Onec.Tests.csproj", "{BA6327AA-9F2B-4694-9079-8B75418020A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcessConverter", "AcessConverter\AcessConverter.csproj", "{DD9E38D9-B042-452E-8F9F-426A4203978C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CBCFA90-482E-4F29-9FAC-45470B2DF6D5}"
+	ProjectSection(SolutionItems) = preProject
+		TestSettings.testsettings = TestSettings.testsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,10 @@ Global
 		{BA6327AA-9F2B-4694-9079-8B75418020A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA6327AA-9F2B-4694-9079-8B75418020A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA6327AA-9F2B-4694-9079-8B75418020A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD9E38D9-B042-452E-8F9F-426A4203978C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD9E38D9-B042-452E-8F9F-426A4203978C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD9E38D9-B042-452E-8F9F-426A4203978C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD9E38D9-B042-452E-8F9F-426A4203978C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

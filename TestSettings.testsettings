@@ -2,8 +2,10 @@
 <TestSettings name="TestSettings" id="05956d35-50f9-4e66-b406-66517427659e" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="Onec.Tests\ParserTests\Not1c_format_demo.txt" />
+    <DeploymentItem filename="Onec.Tests\ParserTests\1c_format.json" />
     <DeploymentItem filename="Onec.Tests\ParserTests\1c_format_demo.txt" />
+    <DeploymentItem filename="Onec.Tests\ParserTests\Not1c_format_demo.txt" />
+    <DeploymentItem filename="Onec.Tests\ParserTests\KOI8R.txt" />
   </Deployment>
   <Execution>
     <Hosts skipUnhostableTests="false" />

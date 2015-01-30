@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using AcessConverter;
 using AcessConverter.Exceptions;
-using Common.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Net.Common.Contracts;
 
 namespace Onec.Tests.ParserTests
 {

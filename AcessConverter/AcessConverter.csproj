@@ -36,8 +36,8 @@
     <Reference Include="Castle.Windsor">
       <HintPath>.\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Common">
-      <HintPath>.\Common.dll</HintPath>
+    <Reference Include="Net.Common">
+      <HintPath>..\packages\Net.Common.1.2.0.0\lib\net451\Net.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,9 +56,12 @@
     <Compile Include="FileExtensions.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="1c_format.json" />
+    <None Include="1c_format.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

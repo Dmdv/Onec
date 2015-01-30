@@ -2,11 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 
-namespace Onec.Tests.FormatTests
+namespace Onec.Tests.SchemaTests
 {
 	[TestClass]
 	[DeploymentItem(@"ParserTests\1c_format.json")]
-	public class OnecFormatTests
+	public class OnecSchemaTests
 	{
 		private const string JsonFile = "1c_format.json";
 

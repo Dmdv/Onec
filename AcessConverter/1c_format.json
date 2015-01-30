@@ -16,19 +16,24 @@
     "Required": false
   },
   "ДатаСоздания": {
-    "Required": false
+    "Required": false,
+    "Format" : "дд.мм.гггг"
   },
   "ВремяСоздания": {
-    "Required": false
+    "Required": false,
+    "Format" : "чч:мм:сс"
   },
   "ДатаНачала": {
-    "Required": true
+    "Required": true,
+    "Format" : "дд.мм.гггг"
   },
   "ДатаКонца": {
-    "Required": true
+    "Required": true,
+    "Format" : "дд.мм.гггг"
   },
   "РасчСчет": {
-    "Required": true
+    "Required": true,
+    "Max" : 20
   },
   "Документ": {
     "Required": false,

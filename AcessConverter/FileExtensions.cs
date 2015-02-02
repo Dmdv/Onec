@@ -17,27 +17,7 @@ namespace AcessConverter
 			// TODO: file parser with sed, awk or grep.
 			using (var reader = new StreamReader(file.OpenRead()))
 			{
-				while (true)
-				{
-					var currentLine = reader.ReadLine();
-
-					if (currentLine == null)
-					{
-						break;
-					}
-
-					if (string.IsNullOrWhiteSpace(currentLine))
-					{
-						continue;
-					}
-
-					if (predicate(currentLine))
-					{
-						return true;
-					}
-				}
-
-				return false;
+				return ProcessStream(predicate, reader);
 			}
 		}
 
@@ -45,42 +25,51 @@ namespace AcessConverter
 		{
 			using (var fs = file.OpenRead())
 			{
-				var cdet = new CharsetDetector();
+				var charsetDetector = new CharsetDetector();
 
-				cdet.Feed(fs);
-				cdet.DataEnd();
+				charsetDetector.Feed(fs);
+				charsetDetector.DataEnd();
 
 				return
-					cdet.Charset != null && cdet.Confidence >= probability
-						? cdet.Charset
+					charsetDetector.Charset != null && charsetDetector.Confidence >= probability
+						? charsetDetector.Charset
 						: null;
 			}
 		}
 
-		public static void ParseWith(this FileInfo file, Action<string> checkAction, Encoding encoding)
+		public static void ParseWith(this FileInfo file, Action<TextReader, string> processor, Encoding encoding)
 		{
 			Guard.CheckTrue(file.Exists, () => new FileNotFoundException(file.FullName));
 
 			// TODO: file parser with sed, awk or grep.
 			using (var reader = new StreamReader(file.OpenRead(), encoding))
 			{
-				while (true)
+				reader.ProcessWhileRead(processor);
+			}
+		}
+
+		private static bool ProcessStream(Predicate<string> predicate, TextReader reader)
+		{
+			while (true)
+			{
+				var currentLine = reader.ReadLine();
+
+				if (currentLine == null)
 				{
-					var currentLine = reader.ReadLine();
+					break;
+				}
 
-					if (currentLine == null)
-					{
-						break;
-					}
+				if (string.IsNullOrWhiteSpace(currentLine))
+				{
+					continue;
+				}
 
-					if (string.IsNullOrWhiteSpace(currentLine))
-					{
-						continue;
-					}
-
-					checkAction(currentLine);
+				if (predicate(currentLine))
+				{
+					return true;
 				}
 			}
+			return false;
 		}
 	}
 }

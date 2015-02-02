@@ -6,24 +6,17 @@ namespace AcessConverter.Exceptions
 	[Serializable]
 	public class NotOnecException : Exception
 	{
-		//
-		// For guidelines regarding the creation of new exception types, see
-		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
-		// and
-		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
-		//
-
 		public NotOnecException()
 		{
 		}
 
 		public NotOnecException(string message)
-			: base(message)
+			: base("This is not 1C Exchange format")
 		{
 		}
 
 		public NotOnecException(string message, Exception inner)
-			: base(message, inner)
+			: base("This is not 1C Exchange format", inner)
 		{
 		}
 

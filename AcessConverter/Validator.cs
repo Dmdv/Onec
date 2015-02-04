@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace AcessConverter
 {
@@ -11,6 +7,12 @@ namespace AcessConverter
 	/// </summary>
 	public class Validator
 	{
-		
+		public Validator(Dictionary<string, string> table)
+		{
+		}
+
+		public void Validate()
+		{
+		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using AcessConverter;
 using AcessConverter.Exceptions;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Net.Common.Contracts;
 
@@ -20,6 +21,19 @@ namespace Onec.Tests.ParserTests
 		public void AssumeContractViolationExceptionThrown()
 		{
 			_parser.Parse(string.Empty);
+		}
+
+		[TestMethod]
+		public void TestExtractPair()
+		{
+			var pair = Parser.ExtractPair("Получатель=Бухгалтерский учет, редакция 4.2");
+			pair.Item1.Should().Be("Получатель");
+			pair.Item2.Should().Be("Бухгалтерский учет, редакция 4.2");
+
+
+			pair = Parser.ExtractPair("ОКАТО=");
+			pair.Item1.Should().Be("ОКАТО");
+			pair.Item2.Should().BeEmpty();
 		}
 
 		[TestMethod]

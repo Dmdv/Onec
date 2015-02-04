@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD9E38D9-B042-452E-8F9F-426A4203978C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{966F011E-EE19-4AD6-A983-B8EA71ACD63B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AcessConverter</RootNamespace>
-    <AssemblyName>AcessConverter</AssemblyName>
+    <RootNamespace>ConsoleConverter</RootNamespace>
+    <AssemblyName>ConsoleConverter</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,14 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>.\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>.\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="Net.Common, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Net.Common">
       <HintPath>..\packages\Net.Common.1.2.0.1\lib\net451\Net.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -47,25 +43,20 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Ude">
-      <HintPath>..\packages\UDE.CSharp.1.1.0\lib\Ude.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\NotOnecException.cs" />
-    <Compile Include="Exceptions\NotValidOnecFileException.cs" />
-    <Compile Include="FileExtensions.cs" />
-    <Compile Include="MdbWriter.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules.cs" />
-    <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="1c_format.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AcessConverter\AcessConverter.csproj">
+      <Project>{DD9E38D9-B042-452E-8F9F-426A4203978C}</Project>
+      <Name>AcessConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

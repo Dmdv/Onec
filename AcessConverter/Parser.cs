@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using AcessConverter.Exceptions;
+using Common.Annotations;
 using Net.Common.Contracts;
 using Net.Common.Extensions;
+using Net.Common.StreamExtensions;
 
 namespace AcessConverter
 {
 	public class Parser
 	{
-		public bool IsAccountSection { get; set; }
+		public bool AccountSectionCompleted { get; set; }
 
-		public bool IsDocumentSection { get; set; }
+		public Dictionary<string, string> Dictionary { get; set; }
 
 		public bool DocumentSectionCompleted { get; set; }
 
-		public bool AccountSectionCompleted { get; set; }
+		// public bool IsAccountSection { get; set; }
+
+		// public bool IsDocumentSection { get; set; }
 
 		public bool IsHeader { get; set; }
 
@@ -24,37 +28,24 @@ namespace AcessConverter
 
 		public bool Started { get; set; }
 
-		public Dictionary<string,string> Dictionary { get; set; }
-
 		public void Parse(string file)
 		{
 			Guard.CheckContainsText(file, "file");
 
+			Dictionary = new Dictionary<string, string>();
+
 			var fileInfo = new FileInfo(file);
 			var guessEncoding = fileInfo.GuessEncoding();
 			var encoding = Encoding.GetEncoding(guessEncoding);
-			fileInfo.ParseWith(CurrentLineProcessor, encoding);
+			fileInfo.ParseWith(OnecProcessor, encoding);
 		}
 
-		private static Tuple<string, string> ExtractPair(string currentString)
+		private void OnecProcessor(TextReader stream)
 		{
-			var strings = currentString.Split('='.YieldArray());
+			Guard.CheckNotNull(stream, "stream");
 
-			var key = strings[0];
-			var value = strings.Length == 3 ? strings[2] : string.Empty;
-
-			return new Tuple<string, string>(key, value);
-		}
-
-		private void ReadAccountSection(TextReader stream, Dictionary<string, string> table)
-		{
-		}
-
-		private void ApplyRulesToCurrentLine(TextReader stream, string currentString)
-		{
-			var pair = ExtractPair(currentString);
+			var pair = ExtractPair(stream.ReadLine());
 			var key = pair.Item1;
-			var value = pair.Item2;
 
 			if (!IsOnec)
 			{
@@ -68,32 +59,7 @@ namespace AcessConverter
 				}
 			}
 
-			Started = true;
-
-			if (!AccountSectionCompleted && Rules.IsAccountSection(key))
-			{
-				IsAccountSection = true;
-				// TODO: read all section;
-
-				AccountSectionCompleted = true;
-			}
-
-			if (!DocumentSectionCompleted && Rules.IsDocumentSection(key))
-			{
-				IsDocumentSection = true;
-				// TODO: read all section;
-
-				DocumentSectionCompleted = true;
-			}
-
-			Dictionary[key] = value;
-		}
-
-		private void CurrentLineProcessor(TextReader stream, string value)
-		{
-			Guard.CheckContainsText(value, "value");
-
-			ApplyRulesToCurrentLine(stream, value);
+			stream.ProcessWhileRead(ProcessBody);
 
 			// TODO check against json.
 			// 1. Поля в секции должны быть в своей секции.
@@ -109,6 +75,62 @@ namespace AcessConverter
 			// 7. Проверяем отдельные ключи по бизнес-правилам, выбираем отдельные ключи, проверяем.
 			// 8. Проходим список всех ключей в json (это по сути Hashtable.)
 			// 8. Создаем Access на основе.
+		}
+
+		// TODO: Непонятно, зачем это. Можно просто все зачитать в хэш и проверять в хэше.
+		// TODO: Оставляю этот момент на рефакторинг.
+		// TODO: Если надо проверять в момент парсинга, то исп. HashSet.
+		private void ProcessAccountSection(TextReader stream)
+		{
+			stream.ProcessWhileRead(ProcessCurrentString, Rules.IsAccountSectionComplete);
+		}
+
+		private void ProcessBody(TextReader stream, string currentString)
+		{
+			var pair = ExtractPair(currentString);
+			var key = pair.Item1;
+
+			Started = true;
+
+			if (!AccountSectionCompleted && Rules.IsAccountSection(key))
+			{
+				ProcessAccountSection(stream);
+
+				AccountSectionCompleted = true;
+			}
+
+			if (!DocumentSectionCompleted && Rules.IsDocumentSection(key))
+			{
+				ProcessDocumentSection(stream);
+
+				DocumentSectionCompleted = true;
+			}
+
+			ProcessCurrentString(stream, currentString);
+		}
+
+		private void ProcessCurrentString(TextReader textReader, string currentString)
+		{
+			var pair = ExtractPair(currentString);
+			var key = pair.Item1;
+			var value = pair.Item2;
+			Dictionary[key] = value;
+		}
+
+		private void ProcessDocumentSection(TextReader stream)
+		{
+			stream.ProcessWhileRead(ProcessCurrentString, Rules.IsDocumentSectionComplete);
+		}
+
+		[NotNull]
+		internal static Tuple<string, string> ExtractPair(string currentString)
+		{
+			var strings = currentString.Split('='.YieldArray());
+
+			var key = strings[0];
+			var value = strings.Length == 2 ? strings[1] : string.Empty;
+
+			return new Tuple<string, string>(key, value);
 		}
 	}
 }
